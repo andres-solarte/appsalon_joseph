@@ -6,8 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:80"
-    
+      - "3500:80"
+
     environment:
       # App DB configuration (defaults suitable for local compose)
       DB_HOST: db
@@ -30,7 +30,7 @@ services:
       - db_data:/var/lib/mysql
       - ./appsalon_joseph.sql:/docker-entrypoint-initdb.d/init.sql:ro
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uapp", "-papp"]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uapp", "-papp" ]
       interval: 5s
       timeout: 3s
       retries: 20
@@ -48,5 +48,20 @@ services:
       - "8081:80"
     restart: unless-stopped
 
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    user: root
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
 volumes:
   db_data:
+  jenkins_home:
