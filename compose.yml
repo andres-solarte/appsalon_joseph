@@ -51,7 +51,9 @@ services:
   jenkins:
     image: jenkins/jenkins:lts
     container_name: jenkins
+    platform: linux/amd64
     user: root
+    privileged: true
     environment:
       - DOCKER_HOST=unix:///var/run/docker.sock
     ports:
@@ -60,8 +62,6 @@ services:
     volumes:
       - ./jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
-
 volumes:
   db_data:
   jenkins_home:

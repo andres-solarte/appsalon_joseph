@@ -16,13 +16,19 @@ pipeline {
 
         stage('Construir contenedor de la aplicación') {
             steps {
-                echo 'Building...'
+                sh 'docker compose build appsalon'
+            }
+        }
+
+        stage('Ejecutar pruebas') {
+            steps {
+                echo 'Ejecutando pruebas...'
             }
         }
 
         stage('Desplegar') {
             steps {
-                echo 'docker compose up -d'
+                sh 'docker compose up -d appsalon'
             }
         }
     }
