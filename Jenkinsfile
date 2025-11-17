@@ -6,6 +6,13 @@ pipeline {
     }
 
     stages {
+
+        stage('Verificar version de Docker') {
+            steps {
+                echo 'docker version'
+            }
+        }
+
         stage('Construir contenedor de la aplicación') {
             steps {
                 echo 'Building...'
