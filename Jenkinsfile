@@ -28,6 +28,12 @@ pipeline {
 
         stage('Desplegar') {
             steps {
+                sh "echo '
+                MYSQL_DATABASE=appsalon_joseph
+                MYSQL_USER=appuser
+                MYSQL_PASSWORD=secret
+                MYSQL_ROOT_PASSWORD=rootsecret
+                ' > .env"
                 sh 'docker compose up -d appsalon'
             }
         }
