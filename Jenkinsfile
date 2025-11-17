@@ -7,9 +7,10 @@ pipeline {
 
     stages {
 
-        stage('Verificar version de Docker') {
+        stage('Verificar version de Docker y Docker Compose') {
             steps {
                 echo 'docker version'
+                echo 'docker compose version'
             }
         }
 
