@@ -30,7 +30,7 @@ RUN composer install \
 
 
 # ---- Runtime stage (Apache + PHP) ----
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 # Install PHP extensions needed by the app
 RUN docker-php-ext-install mysqli \
