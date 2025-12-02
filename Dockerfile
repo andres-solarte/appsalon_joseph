@@ -32,12 +32,17 @@ RUN composer install \
 # ---- Runtime stage (Apache + PHP) ----
 FROM php:8.3-apache
 
-RUN apt-get update && apt-get install -y unzip git
+# Install system dependencies and development libraries
+RUN apt-get update && apt-get install -y \
+    unzip \
+    git \
+    libzip-dev \
+    zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions needed by the app
-RUN docker-php-ext-install mysqli zip
-
-RUN docker-php-ext-enable mysqli
+RUN docker-php-ext-install mysqli zip \
+    && docker-php-ext-enable mysqli zip
 
 # Install Composer for running tests and managing dependencies
 COPY --from=vendor /usr/bin/composer /usr/bin/composer
