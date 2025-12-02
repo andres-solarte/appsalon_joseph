@@ -19,11 +19,14 @@ RUN npm run build
 # ---- Composer dependencies stage ----
 FROM composer:2 AS vendor
 WORKDIR /app
-COPY composer.json composer.lock ./
+
+COPY composer.json composer.lock* ./
+
 RUN composer install \
-    --prefer-dist \
     --no-interaction \
-    --no-scripts
+    --prefer-dist \
+    --no-progress \
+    --optimize-autoloader
 
 
 # ---- Runtime stage (Apache + PHP) ----
