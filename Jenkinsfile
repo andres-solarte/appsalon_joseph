@@ -20,12 +20,6 @@ pipeline {
             }
         }
 
-        stage('Instalar dependencias') {
-            steps {
-                sh 'docker compose run --rm appsalon composer install --no-interaction --prefer-dist'
-            }
-        }
-
         stage('Ejecutar pruebas unitarias') {
             steps {
                 sh 'docker compose run --rm appsalon ./vendor/bin/phpunit --configuration phpunit.xml'
