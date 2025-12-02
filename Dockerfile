@@ -34,6 +34,9 @@ FROM php:8.2-apache
 RUN docker-php-ext-install mysqli \
     && docker-php-ext-enable mysqli
 
+# Install Composer for running tests and managing dependencies
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 # Enable Apache modules and configure DocumentRoot to public/
 RUN a2enmod rewrite \
     && sed -i 's#DocumentRoot /var/www/html#DocumentRoot /var/www/html/public#g' /etc/apache2/sites-available/000-default.conf \
