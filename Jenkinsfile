@@ -24,7 +24,7 @@ pipeline {
             steps {
                 sh '''
                     docker compose run --rm appsalon /usr/bin/composer require phpunit/phpunit --dev
-                    docker compose run --rm appsalon ./vendor/bin/phpunit --configuration phpunit.xml
+                    docker compose run --rm appsalon /app/vendor/bin/phpunit --configuration /app/phpunit.xml
                 '''
             }
         }
