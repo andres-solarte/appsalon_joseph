@@ -17,10 +17,17 @@ RUN npm run build
 
 
 # ---- Composer dependencies stage ----
-FROM composer:2 AS vendor
+FROM php:8.2-cli AS vendor
 WORKDIR /app
+
+# Install Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Copy composer files
 COPY composer.json composer.lock ./
-RUN composer install
+
+# Install dependencies (including dev dependencies for tests)
+RUN composer install --no-interaction --prefer-dist
 
 
 # ---- Runtime stage (Apache + PHP) ----
