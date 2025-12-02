@@ -15,20 +15,26 @@ COPY src ./src
 # Build frontend assets into public/build
 RUN npm run build
 
+
+# ---- Composer dependencies stage ----
+FROM composer:2 AS vendor
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install \
+    --prefer-dist \
+    --no-interaction \
+    --no-scripts
+
+
 # ---- Runtime stage (Apache + PHP) ----
-FROM php:8.1.19-fpm-alpine
+FROM php:8.2-apache
 
 # Install PHP extensions needed by the app
 RUN docker-php-ext-install mysqli \
     && docker-php-ext-enable mysqli
 
 # Install Composer for running tests and managing dependencies
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-COPY composer.json composer.lock ./
-
-# Install dependencies (including dev dependencies for tests)
-RUN composer install --no-interaction --prefer-dist
+COPY --from=vendor /usr/bin/composer /usr/bin/composer
 
 # Enable Apache modules and configure DocumentRoot to public/
 RUN a2enmod rewrite \
