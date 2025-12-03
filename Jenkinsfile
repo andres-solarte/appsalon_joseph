@@ -20,7 +20,7 @@ pipeline {
             }
         }
 
-        stage('Instalar PHPUnit y ejecutar pruebas') {
+        stage('Ejecutar pruebas unitarias con PHPUnit') {
             steps {
                 sh '''
                     docker compose run --rm appsalon phpunit --configuration phpunit.xml

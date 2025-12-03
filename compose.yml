@@ -15,10 +15,10 @@ services:
       DB_NAME: ${MYSQL_DATABASE}
       DB_USER: ${MYSQL_USER}
       DB_PASS: ${MYSQL_PASSWORD}
-    volumes:
-      - ./tests:/var/www/html/tests
-      - ./phpunit.xml:/var/www/html/phpunit.xml
-      - ./models:/var/www/html/models
+    # volumes:
+    #   - ./tests:/var/www/html/tests
+    #   - ./phpunit.xml:/var/www/html/phpunit.xml
+    #   - ./models:/var/www/html/models
     depends_on:
       db:
         condition: service_healthy
