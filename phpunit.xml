@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/12.0/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          colors="true"
          cacheDirectory=".phpunit.cache"
          executionOrder="depends,defects"
          beStrictAboutOutputDuringTests="true"
-         beStrictAboutTodoAnnotatedTests="true"
          failOnRisky="true"
-         failOnWarning="true"
-         verbose="true">
+         failOnWarning="true">
     <testsuites>
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>
-    <coverage>
+    <source>
         <include>
             <directory suffix=".php">models</directory>
             <directory suffix=".php">classes</directory>
@@ -24,6 +22,6 @@
             <directory>vendor</directory>
             <directory>tests</directory>
         </exclude>
-    </coverage>
+    </source>
 </phpunit>
 

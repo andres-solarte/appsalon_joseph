@@ -11,7 +11,7 @@ class UsuarioTest extends TestCase
     {
         parent::setUp();
         // Limpiar alertas antes de cada test
-        Usuario::getAlertas();
+        Usuario::limpiarAlertas();
     }
 
     public function testValidarNuevaCuentaConDatosVacios()

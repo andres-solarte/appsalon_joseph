@@ -24,6 +24,10 @@ class ActiveRecord {
         return static::$alertas;
     }
 
+    public static function limpiarAlertas() {
+        static::$alertas = [];
+    }
+
     public function validar() {
         static::$alertas = [];
         return static::$alertas;

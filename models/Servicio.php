@@ -6,6 +6,7 @@ class Servicio extends ActiveRecord {
     // Base de datos
     protected static $tabla = 'servicios';
     protected static $columnasDB = ['id', 'nombre', 'precio'];
+    protected static $alertas = [];
 
     public $id;
     public $nombre;
@@ -19,16 +20,17 @@ class Servicio extends ActiveRecord {
     }
 
     public function validar() {
+        static::$alertas = [];
         if(!$this->nombre) {
-            self::$alertas['error'][] = 'El Nombre del Servicio es Obligatorio';
+            static::$alertas['error'][] = 'El Nombre del Servicio es Obligatorio';
         }
         if(!$this->precio) {
-            self::$alertas['error'][] = 'El Precio del Servicio es Obligatorio';
+            static::$alertas['error'][] = 'El Precio del Servicio es Obligatorio';
         }
-        if(!is_numeric($this->precio)) {
-            self::$alertas['error'][] = 'El precio no es válido';
+        if($this->precio && !is_numeric($this->precio)) {
+            static::$alertas['error'][] = 'El precio no es válido';
         }
 
-        return self::$alertas;
+        return static::$alertas;
     }
 }

@@ -11,7 +11,7 @@ class ServicioTest extends TestCase
     {
         parent::setUp();
         // Limpiar alertas antes de cada test
-        Servicio::getAlertas();
+        Servicio::limpiarAlertas();
     }
 
     public function testValidarConDatosVacios()
