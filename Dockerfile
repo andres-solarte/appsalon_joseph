@@ -23,11 +23,11 @@ WORKDIR /app
 COPY composer.json composer.lock* ./
 
 RUN composer install \
+    --no-dev \
     --no-interaction \
     --prefer-dist \
     --no-progress \
     --optimize-autoloader
-
 
 # ---- Runtime stage (Apache + PHP) ----
 FROM php:8.3-apache
@@ -47,16 +47,23 @@ RUN docker-php-ext-install mysqli zip \
 # Install Composer for running tests and managing dependencies
 COPY --from=vendor /usr/bin/composer /usr/bin/composer
 
+# Install PHPUnit globally
+RUN composer global require phpunit/phpunit --no-interaction --prefer-dist \
+    && ln -s /root/.composer/vendor/bin/phpunit /usr/local/bin/phpunit
+
+# Test that PHPUnit is installed and working
+RUN phpunit --version
+
 # Enable Apache modules and configure DocumentRoot to public/
 RUN a2enmod rewrite \
     && sed -i 's#DocumentRoot /var/www/html#DocumentRoot /var/www/html/public#g' /etc/apache2/sites-available/000-default.conf \
     && printf "<Directory /var/www/html/public>\n\tAllowOverride All\n</Directory>\n" > /etc/apache2/conf-available/public.conf \
     && a2enconf public
 
-WORKDIR /var/www/html
-
 # Copy application source
 COPY . /var/www/html
+
+WORKDIR /var/www/html
 
 # Bring in Composer vendor deps and built assets
 COPY --from=vendor /app/vendor ./vendor
